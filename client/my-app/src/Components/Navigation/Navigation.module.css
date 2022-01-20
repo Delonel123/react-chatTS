@@ -1,0 +1,30 @@
+.activeLink{
+    position: relative;
+}
+.activeLink::before{
+    content: '';
+    position: absolute;
+    width: 161px;
+    height: 89px;
+    left: -45px;
+    top: -47px;
+    background-color: #fff;
+    z-index: -1;
+    border-radius: 20px 0px 0px 20px;
+    background: #004BE1;
+}
+.activeLink::after{
+    content:'';
+    position: absolute;
+    width: 8px;
+    height: 89px;
+    background: #FFE81A;
+    border-radius: 25px 0px 0px 25px;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.25);
+    left: 108px;
+    top: -47px;
+}
+.link{
+    cursor: pointer;
+    z-index: 100;
+}

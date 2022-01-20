@@ -1,0 +1,12 @@
+.wrapper{
+    display: flex;
+    padding: 35px 32px;
+    height: 100vh;
+}
+.leftPath{
+    display: flex;
+    flex-direction: column;
+    width: 427px;
+    margin-right: 42px;
+    /* justify-content: space-between; */
+}

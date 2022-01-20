@@ -1,0 +1,22 @@
+.sideBarWrapper{
+    width: 186px;
+    height: 100%;
+    background-color: #1A66FF;
+    border-radius: 20px;
+    padding: 38px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 33px;
+}
+.icon{
+    margin-bottom: 78px;
+}
+.df{
+    display: flex;
+}
+.fldircol{
+    flex-direction: column;
+    align-items: center;
+}

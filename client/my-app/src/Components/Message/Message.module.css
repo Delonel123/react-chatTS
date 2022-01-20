@@ -1,0 +1,6 @@
+.messageWrapper{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    margin-bottom: 35px;
+    max-height: 710px;
+    overflow-x: hidden;
+}
