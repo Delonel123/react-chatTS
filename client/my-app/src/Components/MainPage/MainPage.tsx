@@ -1,15 +1,17 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
-import $api from '../../API';
 import Dialog from '../Dialog/Dialog';
-import Groups from '../Groups/Groups';
+import Groups from '../Users/Users';
 import Messages from '../Messages/Messages';
 import SideBar from '../SideBar/SideBar';
 import style from './MainPage.module.css'
-import { useCookies } from 'react-cookie'
-import { useNavigate } from 'react-router-dom';
+import { fetchUsers } from '../../Redux/UsersReducer';
+import { useAppDispatch } from '../../Hooks/ReduxHooks';
 
 const MainPage: React.FC = (props): JSX.Element => {
+    const dispatch = useAppDispatch()
+    useEffect(() =>{
+        dispatch(fetchUsers())
+    },[])
     return (
         <div className={style.wrapper}>
             <SideBar />

@@ -1,6 +1,6 @@
 import style from './Messages.module.css'
-import { fetchData, obj } from '../Groups/Groups';
 import iconMessage from '../../img/messageIcon.png'
+import { obj } from '../Users/Users'
 interface messageObj extends obj{
     time:string
 }

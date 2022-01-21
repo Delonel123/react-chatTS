@@ -1,18 +1,19 @@
-import { MessageObj } from '../../Message/Message';
+import { useAppSelector } from '../../../Hooks/ReduxHooks';
+import { messages } from '../../../Redux/DialogReducer';
 import style from './MessageItem.module.css'
 
 interface IMessageItem{
-    messageitem:MessageObj
+    messageitem:messages
 }
 
 const MessageItem = ({messageitem}:IMessageItem) => {
-    const meID = 2;
+    const meID = useAppSelector((state) => state.profile._id)
     return (
-        <div className={meID === messageitem.id ? style.MessageMe : ''}>
+        <div className={meID === messageitem.user ? style.MessageMe : ''}>
             <div className={style.Message}>
-                {messageitem.message}
+                {messageitem.body}
             </div>
-            <p className={style.messageTime}>{messageitem.time}</p>
+            <p className={style.messageTime}>Today 13.00</p>
         </div>
     );
 }

@@ -1,14 +1,13 @@
+import { useAppSelector } from '../../Hooks/ReduxHooks';
 import MessageItem from '../common/MessageItem/MessageItem';
 import style from './Message.module.css'
 
 
 export interface MessageObj{
-    id:number,
-    message:string,
-    time:string
 }
 export type MessageType = MessageObj[]
 const Message = () => {
+    const messages = useAppSelector((state) => state.messages.messages)
     const tmpMessage: MessageType = [
         {
             id: 2,
@@ -48,7 +47,7 @@ const Message = () => {
     ]
     return (
         <div className={style.messageWrapper}>
-            {tmpMessage.map((item,index) =>{
+            {messages.map((item,index) =>{
                 return(
                     <MessageItem messageitem={item}  />
                 )

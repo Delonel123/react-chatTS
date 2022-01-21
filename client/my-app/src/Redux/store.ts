@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useReducer } from "react";
-import userReducer from './ProfileReducer'
+import DialogReducer from "./DialogReducer";
+import ProfileReducer from "./ProfileReducer";
+import UsersReducer from "./UsersReducer";
 
 export const store = configureStore({
     reducer:{
-        user: userReducer
+        profile: ProfileReducer,
+        users:UsersReducer,
+        messages:DialogReducer
     },
     devTools: process.env.NODE_ENV !== 'production',
 })

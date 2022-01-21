@@ -1,26 +1,37 @@
-import { createSlice,PayloadAction} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice,PayloadAction} from "@reduxjs/toolkit";
+import axios from "axios";
 
 
-interface Profile {
-    _id:Number,
+interface responceData {
+    tokens:{
+        accessToken:string,
+        refreshToken:string
+    },
+    user: Profile
+}
+interface data{
+    valueLogin:string,
+    valuePassword:string
+}
+export interface Profile {
+    _id:string,
     login: string,
     email:string,
     online: Boolean
 
 }
 const initialState: Profile = {
-    _id:1,
+    _id:'',
     login: '',
     email:'',
     online: false,
-
 }
 
-const UserSlice = createSlice({
-    name: 'user',
+const ProfileSlice = createSlice({
+    name: 'profile',
     initialState,
     reducers:{
-        setProfile(state,action:PayloadAction<Profile>){
+        setProfile(state:Profile,action:PayloadAction<Profile>){
             state._id = action.payload._id
             state.login = action.payload.login
             state.email = action.payload.email
@@ -28,6 +39,22 @@ const UserSlice = createSlice({
         }
     }
 })
+// thunk
+export const fetchProfile = createAsyncThunk(
+    '/login',
+    async({valueLogin,valuePassword}:data,thunkAPI) =>{
+        axios.post<responceData>('http://localhost:3001/api/logIn',{
+            login:valueLogin,
+            password:valuePassword
+        },{
+            withCredentials: true,
+        }).then((res) =>{
+            localStorage.setItem('accessToken',res.data.tokens.accessToken)
+            thunkAPI.dispatch(setProfile(res.data.user))
+            return res.data.tokens.accessToken
+        })
+    }    
+)
 
-export const {setProfile} = UserSlice.actions
-export default UserSlice.reducer
+export const {setProfile} = ProfileSlice.actions
+export default ProfileSlice.reducer
