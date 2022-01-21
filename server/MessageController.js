@@ -35,16 +35,17 @@ class MessageController {
             const { user, usercompanion} = req.body
             const findUser = await User.findOne({ _id: user })
             const findUserCompanion = await User.findOne({ _id: usercompanion })
-            const fingDialog = await Dialog.findOne({ userOne: user,userTwo: findUserCompanion})
-            !fingDialog && await Dialog.findOne({ userOne: findUserCompanion,userTwo: user})
-
+            let fingDialog = await Dialog.findOne({ userOne: user,userTwo: findUserCompanion})
+            if(!fingDialog){
+                fingDialog = await Dialog.findOne({ userOne: findUserCompanion._id,userTwo: findUser._id})
+            }
             if (!fingDialog) {
                 const newDialog = new Dialog({ userOne: findUser._id, userTwo: findUserCompanion._id })
                 newDialog.save()
                 return res.status(200).json({messages:{}})
            }
            const messages = await Message.find({dialog:fingDialog._id})
-           return res.status(200).json(messages)
+           return res.status(200).json({messages})
         } catch (e) {
 
         }
