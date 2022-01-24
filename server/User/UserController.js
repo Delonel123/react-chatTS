@@ -44,7 +44,7 @@ class userController {
             await Token.deleteOne({_id:token._id})
             const user = await User.findOne({_id:token.user})
             user.online = false
-            res.cookie('refreshToken', '')
+            res.clearCookie('refreshToken')
             user.save()
             res.status(200).json('logout')
         }catch(e){
@@ -80,8 +80,8 @@ class userController {
     async refresh(req,res){
         try{
             const {refreshToken} =  req.cookies
-            const tokens = TokenService.refreshedToken(refreshToken)
-            return res.status(200).json(tokens)
+            const responce = await TokenService.refreshedToken(refreshToken)
+            return res.status(200).json(responce)
         }catch(e){
             return res.status(500)
         }

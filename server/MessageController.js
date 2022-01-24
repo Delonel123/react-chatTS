@@ -42,8 +42,8 @@ class MessageController {
             if (!fingDialog) {
                 const newDialog = new Dialog({ userOne: findUser._id, userTwo: findUserCompanion._id })
                 newDialog.save()
-                return res.status(200).json({messages:{}})
-           }
+                return res.status(200).json({messages:[],newDialog})
+            }
            const messages = await Message.find({dialog:fingDialog._id})
            return res.status(200).json({messages})
         } catch (e) {

@@ -9,11 +9,11 @@ import { createServer } from 'http';
 const DB_URL = 'mongodb+srv://Delonel:aruduqaha22032000@cluster0.gsodt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const PORT = 3001
 const app = express()
-const server = createServer(app); 
-const socketio = new Server(server,{cors:{origin:"*"}});
+const server = createServer(app);
+const socketio = new Server(server, { cors: { origin: "*" } });
 
 app.use(cors({
-    credentials:true,
+    credentials: true,
     origin: "http://localhost:3000"
 }))
 app.use(express.json())
@@ -27,9 +27,12 @@ const startAPP = async () => {
         console.log(e)
     }
 }
-socketio.on('connection',(socket) =>{
-    socket.on('message',(data) =>{
-        socket.broadcast.emit("message",data)
+socketio.on('connection', (socket) => {
+    socket.on('message', (data) => {
+        socketio.sockets.emit("message", data)
+    })
+    socket.on('typing',(data) =>{
+        socket.broadcast.emit("typing",data)
     })
 })
 startAPP()
