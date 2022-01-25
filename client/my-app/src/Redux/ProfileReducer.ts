@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice,PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
+import { AxiosResponse } from 'axios';
 
 
 interface responceData {
@@ -19,6 +20,13 @@ export interface Profile {
     email:string,
     online: Boolean
 
+}
+interface checkAuthData{
+    findUser:Profile,
+    tokents:{
+        accessToken:string,
+        refreshToken:string
+    }
 }
 const initialState: Profile = {
     _id:'',
@@ -54,6 +62,24 @@ export const fetchProfile = createAsyncThunk(
             return res.data.tokens.accessToken
         })
     }    
+)
+export const logout = createAsyncThunk(
+    'logout',
+    async() =>{
+        
+    }
+)
+
+export const checkAuth = createAsyncThunk(
+    '/chackauth',
+    async(_,thunkAPI) => {
+        axios.get('http://localhost:3001/api/refresh',{
+            withCredentials:true
+        }).then(({data}:AxiosResponse<checkAuthData>) =>{
+            thunkAPI.dispatch(setProfile(data.findUser))
+        })
+
+    }
 )
 
 export const {setProfile} = ProfileSlice.actions

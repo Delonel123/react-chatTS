@@ -22,7 +22,7 @@ const SideBar = () => {
     ]
     const logout = () => {
         $api.get('/logOut').then(() => {
-            localStorage.setItem('accessToken', ' ')
+            localStorage.clear()
             navigate('/', { replace: true })
         })
 

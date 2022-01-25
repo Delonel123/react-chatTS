@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Input from '../common/Input/Input';
 import style from './Authorization.module.css'
-import { useAppDispatch } from '../../Hooks/ReduxHooks';
-import { fetchProfile } from '../../Redux/ProfileReducer';
+import { useAppDispatch, useAppSelector } from '../../Hooks/ReduxHooks';
+import { checkAuth, fetchProfile } from '../../Redux/ProfileReducer';
 
 
 const Authorization: React.FC = (): JSX.Element => {
     // FIXME: добавить поле isAuthorise в redux и проверять вошел ли пользователь
     const [valueLogin, setValueLoginInput] = useState<string>('')
     const [valuePassword, setPasswordInput] = useState<string>('')
+    const meProfile = useAppSelector((state) => state.profile)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const authorisation = async () => {
         dispatch(fetchProfile({ valueLogin, valuePassword }))
         navigate('/chat')
     }
+    useEffect(() =>{
+        if(localStorage.getItem('accessToken')){
+            dispatch(checkAuth())
+        }
+    },[])
+
+    useEffect(() =>{
+        console.log(localStorage.getItem('accessToken'))
+        if(meProfile._id && localStorage.getItem('accessToken')){
+            navigate('/chat')
+        }
+    },[meProfile])
     return (
         <div className={style.Authorization}>
             <div className={style.AuthorizationWindow}>

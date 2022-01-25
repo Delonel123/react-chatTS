@@ -34,6 +34,10 @@
 .MessageMe{
     width: fit-content;
     margin-left: auto;
+    position: relative;
+}
+.Message{
+    position: relative;
 }
 .MessageMe .Message{
     background-color: #1A66FF;
@@ -43,5 +47,15 @@
     border-color: transparent transparent #1A66FF transparent; 
     left:auto;
     right: -14px;
+}
+.checkMark{
+    position: absolute;
+}
+.MessageMe .checkMark{
+    top: 15px;
+    left: -30px;
+}
+.checkMarkTwo{
+    left: -49px !important;
 }
 
