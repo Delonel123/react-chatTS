@@ -47,7 +47,19 @@ class MessageController {
            const messages = await Message.find({dialog:fingDialog._id})
            return res.status(200).json({messages})
         } catch (e) {
-
+            res.status(500)
+        }
+    }
+    async ReadMessage(req,res){
+        try{
+            const {dialog} = req.body
+            let findMessages = await Message.find({dialog})
+            findMessages.map((item =>{
+                item.isRead = true
+            }))
+            return res.status(200).json(я)
+        }catch(e){
+            res.status(500)
         }
     }
 }

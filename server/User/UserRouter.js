@@ -13,5 +13,6 @@ router.get('/refresh', UserController.refresh)
 // Message
 router.post('/sendMessage',MessageController.SendMessage)
 router.post('/getMessages', MessageController.GetMessage)
+router.post('/readMessages', MessageController.ReadMessage)
 
 export default router

@@ -41,6 +41,7 @@ class userController {
         try{
             const {refreshToken} = req.cookies
             const token = await Token.findOne({refreshToken})
+            console.log(token)
             await Token.deleteOne({_id:token._id})
             const user = await User.findOne({_id:token.user})
             user.online = false

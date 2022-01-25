@@ -34,6 +34,9 @@ socketio.on('connection', (socket) => {
     socket.on('typing',(data) =>{
         socket.broadcast.emit("typing",data)
     })
+    socket.on('readMessage',(data) =>{
+        socket.broadcast.emit('readMessage',data)
+    })
 })
 startAPP()
 
