@@ -6,12 +6,11 @@ import Setting from '../../img/setting.svg'
 import Message from '../Message/Message'
 import SendMessage, { typeingResData } from '../SendMessage/SendMessage'
 import { useAppDispatch, useAppSelector } from '../../Hooks/ReduxHooks'
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import { useEffect, useState } from 'react'
-import { dialog, readMessages, sendMessage } from '../../Redux/DialogReducer'
-import { useSelector } from 'react-redux'
+import { readMessages, sendMessage } from '../../Redux/DialogReducer'
 import Modal from '../Modal/Modal'
-import Peer from 'peerjs';
+import AcceptModal from '../AcceptModal/AcceptModal'
 
 interface responceData {
     id: string,
@@ -24,11 +23,6 @@ interface readResponce {
 }
 
 const Dialog = () => {
-    // const name = useAppSelector((state) => state.messages.name)
-    // const idUser = useAppSelector((state) => state.messages.idCompanion)
-    // const idDialog = useAppSelector((state) => state.messages.idDialog)
-    // const isSelected = useAppSelector((state) => state.messages.isSelected)
-    // const meID = useAppSelector((state) => state.profile._id)
     const meID = useAppSelector((state) => state.profile._id)
     const state = useAppSelector((state) => state.messages)
     const findMessage = state.find((item) => item.isSelected)
@@ -95,34 +89,32 @@ const Dialog = () => {
             })
         }
     }, [idUser])
-
-
+    type sessionType = 'video' | 'audio' | ''
+    interface CallingData{
+        idDialog:string,
+        idUser:string,
+        name:string
+    }
     // WEBRTC
     const [modaiIsOpen, setModalIsOpen] = useState<boolean>(false)
+    const [typeSession,setTypeSession] = useState<sessionType>('')
+    const [acceptModalIsOpen,setAcceptModalIsOpen] = useState<boolean>(false)
+    const [caller,setIsCaller] = useState(false)
+    const [nameCaller,setNameCaller] = useState<string | null>(null)
     const handleOpenModal = (value: boolean) => {
         setModalIsOpen(value)
     }
+    socket.on('Calling',(data:CallingData) =>{
+        if(data.idDialog === idDialog && data.idUser === meID){
+            setAcceptModalIsOpen(true)
+            setNameCaller(data.name)
+        }
+    })
 
-    useEffect(() =>{
-        const peer = new Peer();
-        peer.on('open', (peerID) =>{
-            console.log(peerID)
-        })
-        peer.on('call', (call) =>{
-            const peercall = call
-            // ТУТ НАМ ЗВОНЯТ И МЫ ДОЛЖНА БЛОК С ПРИНЯТИЕМ ЗВОНКА ВЫВЕСТИ
-        })
-    },[])
-    const callToNode = () => {
-        navigator.mediaDevices.getDisplayMedia({audio:true,video:true}).then((mediaStream) =>{
-            
-        })
-    }
-
-    // 
     return (
         <div className={style.wrapper}>
-            {modaiIsOpen && <Modal handelChange={handleOpenModal} />}
+            {acceptModalIsOpen && <AcceptModal  nameCaller={nameCaller} setIsCaller={setIsCaller} setModalIsOpen={setModalIsOpen} idDialog={idDialog} setAcceptModalIsOpen={setAcceptModalIsOpen}/>}
+            {modaiIsOpen && <Modal typeSession={typeSession}  caller={caller}  meID={meID} idUser={idUser}  idDIalog={idDialog} handelChange={handleOpenModal} />}
             {!isSelected ?
                 <div className={style.unSelectedDialog}><p>Выеберите диалог</p></div> :
                 <> <div className={style.dialogTop}>
@@ -134,13 +126,13 @@ const Dialog = () => {
                         </div>
                     </div>
                     <div className={style.dialogRight}>
-                        <button className={style.button}>
+                        <button onClick={() => {handleOpenModal(true); setTypeSession('audio')}} className={style.button}>
                             <img src={Phone} />
                         </button>
-                        <button onClick={callToNode} className={style.button}>
+                        <button onClick={() => {handleOpenModal(true); setTypeSession('video')}} className={style.button}>
                             <img src={Video} />
                         </button>
-                        <button className={style.button}>
+                        <button className={style.button} >
                             <img src={Setting} />
                         </button>
                     </div>

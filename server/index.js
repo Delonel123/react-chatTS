@@ -37,6 +37,28 @@ socketio.on('connection', (socket) => {
     socket.on('readMessage',(data) =>{
         socket.broadcast.emit('readMessage',data)
     })
+    socket.on('Calling', (data) =>{
+        socket.broadcast.emit('Calling',data)
+    })
+    socket.on('AcceptCalling', (data) =>{
+        console.log(data)
+        socket.broadcast.emit('AcceptCalling',data)
+    })
+    socket.on('backVideo', (data) =>{
+        socket.broadcast.emit('backVideo',data)
+    })
+    socket.on("sendVideo", (data) => {
+        socket.broadcast.emit('sendVideo', data);
+    })
+    socket.on("answerCall",data =>{
+        socket.broadcast.emit('answerCall', data);
+    })
+    socket.on("answerCaller",data =>{
+        socket.broadcast.emit('answerCaller', data);
+    })
+    socket.on("closeVideoSession",data =>{
+        socket.broadcast.emit('closeVideoSession', data)
+    })
 })
 startAPP()
 

@@ -63,12 +63,6 @@ export const fetchProfile = createAsyncThunk(
         })
     }    
 )
-export const logout = createAsyncThunk(
-    'logout',
-    async() =>{
-        
-    }
-)
 
 export const checkAuth = createAsyncThunk(
     '/chackauth',

@@ -6,12 +6,20 @@ import SideBar from '../SideBar/SideBar';
 import style from './MainPage.module.css'
 import { fetchUsers } from '../../Redux/UsersReducer';
 import { useAppDispatch } from '../../Hooks/ReduxHooks';
+import { checkAuth } from '../../Redux/ProfileReducer';
 
 const MainPage: React.FC = (props): JSX.Element => {
     const dispatch = useAppDispatch()
     useEffect(() =>{
         dispatch(fetchUsers())
     },[])
+
+    useEffect(() =>{
+        if(localStorage.getItem('accessToken')){
+            dispatch(checkAuth())
+        }
+    },[])
+
     return (
         <div className={style.wrapper}>
             <SideBar />
